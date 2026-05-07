@@ -1,0 +1,28 @@
+--CREATE TABLE owid_covid_data (
+    --iso_code NVARCHAR(255),
+--continent NVARCHAR(255),
+    --location NVARCHAR(255),
+   -- date NVARCHAR(255),
+    --total_cases NVARCHAR(255),
+    --new_cases NVARCHAR(255),
+    --total_deaths NVARCHAR(255),
+    --new_deaths NVARCHAR(255),
+    --population NVARCHAR(255),
+    --total_vaccinations NVARCHAR(255),
+    --new_vaccinations NVARCHAR(255),
+   -- people_vaccinated NVARCHAR(255),
+    --people_fully_vaccinated NVARCHAR(255));
+
+--select top 10* from dbo.owid_covid_data
+-- Create CovidDeaths
+--SELECT iso_code, continent, location, date,population, total_cases, new_cases,total_deaths, new_deaths INTO CovidDeath FROM owid_covid_data;
+-- Create CovidDeaths
+--SELECT iso_code, continent, location, date,total_vaccinations, new_vaccinations,people_vaccinated, people_fully_vaccinated INTO CovidVaccination FROM owid_covid_data;
+--select top 5*from dbo.CovidDeath
+--select top 5*from dbo.CovidVaccination
+--select location, date, total_cases, total_deaths,ROUND(CAST(total_deaths AS FLOAT) / NULLIF(CAST(total_cases AS FLOAT), 0) * 100, 2) AS death_rate_percentage from dbo.CovidDeath where continent is not null order by location,date
+--SELECT location, population,MAX(CAST(total_cases AS BIGINT)) AS peak_cases, ROUND(MAX(CAST(total_cases AS FLOAT)) / NULLIF(CAST(population AS FLOAT),0) * 100, 2) AS infection_rate FROM CovidDeaths GROUP BY location, population ORDER BY infection_rate DESC;
+--SELECT location,MAX(CAST(total_deaths AS BIGINT)) AS total_death_count FROM CovidDeaths WHERE continent IS NOT NULL GROUP BY location ORDER BY total_death_count DESC;
+--SELECT date,SUM(CAST(new_cases AS BIGINT)) AS global_cases, SUM(CAST(new_deaths AS BIGINT)) AS global_deaths, ROUND(SUM(CAST(new_deaths AS FLOAT)) / NULLIF(SUM(CAST(new_cases AS FLOAT)),0) * 100, 2) AS death_rate FROM CovidDeaths WHERE continent IS NOT NULL GROUP BY date ORDER BY date;
+--SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations,SUM(CAST(v.new_vaccinations AS BIGINT)) OVER (PARTITION BY d.location ORDER BY d.date) AS rolling_vaccinations FROM CovidDeaths d JOIN CovidVaccinations v ON d.location = v.location AND d.date = v.date WHERE d.continent IS NOT NULL;
+--WITH VaccinationProgress AS (SELECT d.location, d.population, d.date,SUM(CAST(v.new_vaccinations AS BIGINT))OVER (PARTITION BY d.location ORDER BY d.date) AS rolling_vaccinations FROM CovidDeaths d JOIN CovidVaccinations v ON d.location = v.location AND d.date = v.date)SELECT *, ROUND(rolling_vaccinations * 100.0 /  NULLIF(CAST(population AS FLOAT),0),2) AS pct_vaccinated FROM VaccinationProgress;
