@@ -1,0 +1,24 @@
+--CREATE DATABASE NashvilleHousing;
+--USE NashvilleHousing;
+--CREATE TABLE Nashville_housing_data (UniqueID NVARCHAR(255),ParcelID NVARCHAR(255),LandUse NVARCHAR(255),PropertyAddress NVARCHAR(255),SaleDate NVARCHAR(255),SalePrice NVARCHAR(255),LegalReference NVARCHAR(255),SoldAsVacant NVARCHAR(255),OwnerName NVARCHAR(255),OwnerAddress NVARCHAR(255),Acreage NVARCHAR(255),TaxDistrict NVARCHAR(255),LandValue NVARCHAR(255),BuildingValue NVARCHAR(255),TotalValue NVARCHAR(255),YearBuilt NVARCHAR(255),Bedrooms NVARCHAR(255),FullBath NVARCHAR(255),HalfBath NVARCHAR(255));
+--BULK INSERT Nashville_housing_data FROM 'C:\Users\DELL\Desktop\Nashville_housing_data.csv'WITH (FIRSTROW = 2,FIELDTERMINATOR = ',',ROWTERMINATOR = '\n',TABLOCK);
+--select top 10* from dbo.Nashville_housing_data;
+--select UniqueID,SaleDate FROM Nashville_housing_data;
+--Alter TABLE dbo.Nashville_housing_data Add SaleDateConverted Date;
+--Update dbo.Nashville_housing_data Set SaleDateConverted = CONVERT(date, SaleDate);
+--SELECT UniqueID,SaleDate,SaleDateConverted FROM dbo.Nashville_housing_data;
+--SELECT UniqueID,ParcelID,PropertyAddress From dbo.Nashville_housing_data Where PropertyAddress is NULL;
+--UPDATE a SET a.PropertyAddress = ISNULL(a.PropertyAddress, b.PropertyAddress)FROM Nashville_housing_data a JOIN Nashville_housing_data b ON a.ParcelID = b.ParcelID AND a.UniqueID <> b.UniqueID WHERE a.PropertyAddress IS NULL;
+--SELECT UniqueID,ParcelID,PropertyAddress From dbo.Nashville_housing_data Where PropertyAddress is NULL;
+--ALTER TABLE dbo.Nashville_housing_data ADD PropertySplitAddress nvarchar(255);
+--UPDATE dbo.Nashville_housing_data SET PropertySplitAddress = CASE WHEN CHARINDEX(',', PropertyAddress) > 0 THEN SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) - 1) ELSE PropertyAddress END WHERE PropertyAddress IS NOT NULL;
+--ALTER TABLE dbo.Nashville_housing_data ADD PropertySplitCity nvarchar(255)
+--UPDATE dbo.Nashville_housing_data SET PropertySplitCity = CASE WHEN CHARINDEX(',', PropertyAddress) > 0 THEN SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1, LEN(PropertyAddress)) ELSE NULL END WHERE PropertyAddress IS NOT NULL;
+--SELECT PropertyAddress, PropertySplitAddress, PropertySplitCity FROM dbo.Nashville_housing_data WHERE PropertyAddress IS NOT NULL;
+--SELECT DISTINCT SoldAsVacant FROM dbo.Nashville_housing_data;
+--UPDATE dbo.Nashville_housing_data SET SoldAsVacant = CASE WHEN SoldAsVacant='1' THEN 'Yes' WHEN SoldAsVacant='0' THEN 'No'WHEN SoldAsVacant='Y' THEN 'Yes' WHEN SoldAsVacant='N' THEN 'No' ELSE SoldAsVacant END;
+--SELECT TOP 5*FROM dbo.Nashville_housing_data;
+--WITH RowNumCTE AS (SELECT * ,ROW_NUMBER() OVER (PARTITION BY ParcelID,PropertyAddress,SalePrice,SaleDate,LegalReference ORDER BY UniqueID ) AS row_num FROM Nashville_housing_data )SELECT *  FROM RowNumCTE WHERE row_num > 1 ORDER BY PropertyAddress;
+--select top 1*from Nashville_housing_data; 
+--ALTER TABLE Nashville_Housing_data DROP COLUMN OwnerAddress,TaxDistrict,PropertyAddress,SaleDate;
+--select top 10*from Nashville_housing_data;
