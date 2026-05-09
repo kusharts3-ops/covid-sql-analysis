@@ -1,0 +1,9 @@
+--CREATE Database ECommerceProject;
+--USE ECommerceProject;
+--SELECT ROUND(SUM(CAST(payment_value AS FLOAT)), 2) AS TotalRevenue from dbo.olist_order_payments_dataset
+--select order_status, COUNT(*) AS OrderCount FROM dbo.olist_orders_dataset GROUP BY order_status ORDER BY OrderCount DESC;
+--select table_name from information_schema.tables where table_type='BASE TABLE'
+--SELECT SUBSTRING(order_purchase_timestamp, 1, 7) AS order_month,ROUND(SUM(CAST(p.payment_value AS FLOAT)), 2) AS monthly_revenue FROM olist_orders_dataset o JOIN olist_order_payments_dataset p ON o.order_id = p.order_id GROUP BY SUBSTRING(order_purchase_timestamp, 1, 7)ORDER BY order_month;
+--select top 10 c.customer_city,round(sum(cast(p.payment_value as float)),2)as city_revenue from olist_orders_dataset o join olist_customers_dataset c on o.customer_id=c.customer_id join olist_order_payments_dataset p on o.order_id=p.order_id group by c.customer_city order by city_revenue desc;
+--select top 10 s.seller_id,s.seller_city,round(sum(cast(i.price as float)),2)as seller_revenue from olist_order_items_dataset i join olist_sellers_dataset s on i.seller_id=s.seller_id group by s.seller_id,s.seller_city order by seller_revenue desc;
+--Select round(avg(cast(payment_value as float)),2) as avg_payment_value from olist_order_payments_dataset;
